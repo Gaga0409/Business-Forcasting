@@ -1,1 +1,44 @@
+############### Yellow Group 9 ###############
+### Jiahui Du ### XXX ### XXX ### XXX ###      大家记得写下名字哈
+
+import pandas as pd
+import numpy as np
+import scipy as scp
+import matplotlib.pyplot as plt
+import os as os
+from datetime import date as dd
+from scipy import stats
+from scipy import optimize
+import statsmodels.api as sm
+df=pd.read_excel('Assignment_1_MF402_2022.xlsx')
+
+date = df.iloc[:,0]
+stock_returns = df.iloc[:,1]
+stock_index = df.iloc[:,2]
+dividend = df.iloc[:,3]
+bond_returns = df.iloc[:,4]
+bond_index = df.iloc[:,5]
+bill_returns = df.iloc[:,6]
+bill_index = df.iloc[:,7]
+inflation_rate = df.iloc[:,8]
+inflation_index = df.iloc[:,9]
+BTC_value = df.iloc[:,10]
+BTC_index = df.iloc[:,11]
+BTC_returns = df.iloc[:,12]
+Gold_value = df.iloc[:,13]
+Gold_index = df.iloc[:,14]
+Gold_returns = df.iloc[:,15]
+
+
+############ Part 1 ############
+
+
+############ Part 2 ############
+
+
+
+
+
+
+
 

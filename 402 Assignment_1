@@ -35,6 +35,80 @@ Gold_returns = df.iloc[:,15]
 
 ############ Part 2 ############
 
+### a ###
+SR = ((np.mean(stock_returns-rf))/np.std(stock_returns))*pow(12,0.5)
+print("The annualized sharpe ratio is %.2f" % SR)
+# Answer: Sharpe Ratio = 0.23
+
+### b ###
+alpha_var = 0.03
+returns_sorted = np.sort(stock_returns)
+VaR = np.quantile(returns_sorted, alpha_var)
+print("The VaR is %.2f percent" % (VaR*100))
+# Answer: The 3% Value at risk = 7.91%
+
+### c ###
+alpha_es = 0.03
+ES = np.mean(returns_sorted[returns_sorted<VaR])
+print("The Expected Shortfall is %.2f percent" % (ES*100))
+# Answer: The 3% Expected Shortfall is -10.36%
+
+### d ###
+skew = scp.stats.skew(stock_returns)
+print("The skewness is %.2f" % skew)
+# Answer: The Skew is -0.43
+
+### e ###
+kurt = scp.stats.kurtosis(stock_returns)
+print("The kurtosis is %.2f" % kurt)
+# Answer: The Kurtosis is 1.70
+
+### f ###
+def maxdrawdown(x):
+    i = np.argmax(np.maximum.accumulate(x) - x) # end of period
+    j = np.argmax(x[:i]) # start of the period
+    percent_change = 100*( x[i] - x[j] ) / x[j]
+    return j,i,percent_change
+
+cumulativeret = np.cumprod(1+stock_returns)
+MaxDDStartIndex, MaxDDEndIndex, MaxDD = maxdrawdown(cumulativeret)
+print(f'The Maximum Drawdown is {MaxDD:.2}%')
+# Answer: The Maximum Drawdown is -5.3e+01%
+
+### g ###
+plt.hist(stock_returns)
+
+# Answer: monthly stock returns normally distributed
+
+
+############ Part 3 ############
+
+### a ### US stocks
+
+CorrU3 = np.log(pd.Series(stock_index)).diff(3).corr(inflation_index,method='pearson')
+CorrU12 = np.log(pd.Series(stock_index)).diff(12).corr(inflation_index,method='pearson')
+CorrU24 = np.log(pd.Series(stock_index)).diff(24).corr(inflation_index,method='pearson')
+
+### b ### T-bills
+CorrT3 = np.log(pd.Series(bill_index)).diff(3).corr(inflation_index,method='pearson')
+CorrT12 = np.log(pd.Series(bill_index)).diff(12).corr(inflation_index,method='pearson')
+CorrT24 = np.log(pd.Series(bill_index)).diff(24).corr(inflation_index,method='pearson')
+
+### c ### Gold
+CorrG3 = np.log(pd.Series(Gold_index)).diff(3).corr(inflation_index,method='pearson')
+CorrG12 = np.log(pd.Series(Gold_index)).diff(12).corr(inflation_index,method='pearson')
+CorrG24 = np.log(pd.Series(Gold_index)).diff(24).corr(inflation_index,method='pearson')
+
+### d ### BTC
+CorrB3 = np.log(pd.Series(BTC_index)).diff(3).corr(inflation_index,method='pearson')
+CorrB12 = np.log(pd.Series(BTC_index)).diff(12).corr(inflation_index,method='pearson')
+CorrB24 = np.log(pd.Series(BTC_index)).diff(24).corr(inflation_index,method='pearson')
+
+print('Correlationfor 3 months: US stocks:'+str(CorrU3)+' T-bills: '+str(CorrT3)+' Gold: '+str(CorrG3)+' Bitcoin: '+str(CorrB3))
+print('Correlationfor 12 months: US stocks:'+str(CorrU12)+' T-bills: '+str(CorrT12)+' Gold: '+str(CorrG12)+' Bitcoin: '+str(CorrB12))
+print('Correlationfor 24 months: US stocks:'+str(CorrU24)+' T-bills: '+str(CorrT24)+' Gold: '+str(CorrG24)+' Bitcoin: '+str(CorrB24))
+
+### Answer: After comparing, US stocks is the best method to hedge inflation at a horizon 3 month and 24 month; Bitcoin is the best method to hedge inflation at a horizon 12 month;
 
 
 
